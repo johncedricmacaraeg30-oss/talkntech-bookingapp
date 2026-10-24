@@ -47,7 +47,8 @@ import androidx.compose.ui.unit.sp
 fun TikTokShopScreen(
     offers: List<RepairOffer>,
     orders: List<BookingOrder>,
-    onPlaceOrder: (RepairOffer, String, String, String) -> Unit
+    onPlaceOrder: (RepairOffer, String, String, String) -> Unit,
+    onDeleteOrder: (String) -> Unit
 ) {
     var selectedCategory by remember { mutableStateOf("All") }
     var selectedOfferForBooking by remember { mutableStateOf<RepairOffer?>(null) }
@@ -156,7 +157,8 @@ fun TikTokShopScreen(
     if (showOrdersList) {
         OrdersListModal(
             orders = orders,
-            onDismiss = { showOrdersList = false }
+            onDismiss = { showOrdersList = false },
+            onDeleteOrder = onDeleteOrder
         )
     }
 }
@@ -320,7 +322,8 @@ fun CheckoutModal(
 @Composable
 fun OrdersListModal(
     orders: List<BookingOrder>,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onDeleteOrder: (String) -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -356,7 +359,8 @@ fun OrdersListModal(
                                 )
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
                                         text = "Status: ${order.status}",
@@ -364,12 +368,23 @@ fun OrdersListModal(
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Bold
                                     )
-                                    Text(
-                                        text = "₱${order.totalAmount.toInt()}",
-                                        color = Color(0xFFF59E0B),
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            text = "₱${order.totalAmount.toInt()}",
+                                            color = Color(0xFFF59E0B),
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Button(
+                                            onClick = { onDeleteOrder(order.id) },
+                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEF4444)),
+                                            modifier = Modifier.height(28.dp),
+                                            shape = RoundedCornerShape(6.dp)
+                                        ) {
+                                            Text("Delete", fontSize = 10.sp)
+                                        }
+                                    }
                                 }
                             }
                         }

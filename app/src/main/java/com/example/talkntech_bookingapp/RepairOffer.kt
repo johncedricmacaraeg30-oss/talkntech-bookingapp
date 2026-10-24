@@ -12,11 +12,12 @@ data class RepairOffer(
 )
 
 data class BookingOrder(
-    val orderId: Int,
-    val offerTitle: String,
-    val customerName: String,
-    val phoneModel: String,
-    val address: String,
-    val totalAmount: Double,
+    val id: String = "",
+    val orderId: Int = 0,
+    val offerTitle: String = "",
+    val customerName: String = "",
+    val phoneModel: String = "",
+    val address: String = "",
+    val totalAmount: Double = 0.0,
     val status: String = "Pending"
 )

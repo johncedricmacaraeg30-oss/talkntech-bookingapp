@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "602111885710",
+    "project_id": "talkntech-ab5b3",
+    "storage_bucket": "talkntech-ab5b3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602111885710:android:37275e65ee5f9776e3e4df",
+        "android_client_info": {
+          "package_name": "com.example.talkntech_bookingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsWL-pIgds9sbxttAAjpdS0bQf16vRgCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

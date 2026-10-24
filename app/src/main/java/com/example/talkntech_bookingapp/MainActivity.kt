@@ -5,11 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.example.talkntech_bookingapp.R
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,25 +80,19 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            var orderList by remember { mutableStateOf(listOf<BookingOrder>()) }
+            val viewModel: BookingViewModel = viewModel()
+            val orders by viewModel.orders.collectAsState()
 
             MaterialTheme {
                 Surface {
                     TikTokShopScreen(
                         offers = repairOffers,
-                        orders = orderList,
+                        orders = orders,
                         onPlaceOrder = { offer, name, model, address ->
-                            val nextOrderId = orderList.size + 1
-                            val newOrder = BookingOrder(
-                                orderId = nextOrderId,
-                                offerTitle = offer.title,
-                                customerName = name,
-                                phoneModel = model,
-                                address = address.ifBlank { "Pickup Address" },
-                                totalAmount = offer.price,
-                                status = "Pending Tech Dispatch"
-                            )
-                            orderList = orderList + newOrder
+                            viewModel.addOrder(offer, name, model, address)
+                        },
+                        onDeleteOrder = { orderId ->
+                            viewModel.deleteOrder(orderId)
                         }
                     )
                 }
